@@ -1,5 +1,6 @@
 # Visual Archives Project
-Data will go in a csv file and website will display data from csv file as a treemap. 
+- The project will display data about containers in the visual archives as a treemap. 
+- Data will be stored in a csv file. 
 
 **Techologies Used:** Vite, React, Plotly
 

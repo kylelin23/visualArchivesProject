@@ -19,3 +19,43 @@ h1 {
   align-items: center;
   justify-content: center;
 }
+
+.stats {
+  width: 100%;
+  max-width: 800px;
+  margin-top: 3rem;
+}
+
+.stats h2 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 1.5rem 0 0.5rem;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 0.25rem;
+}
+
+.stats table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.stats th, .stats td {
+  text-align: left;
+  padding: 6px 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.stats th {
+  font-weight: 600;
+  color: #555;
+}
+
+.counts {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.counts p {
+  margin: 4px 0;
+}

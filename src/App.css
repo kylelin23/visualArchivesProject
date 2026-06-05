@@ -1,5 +1,17 @@
+.treemap {
+  background-color: white;
+  border: none;
+}
+
+.treemapContainer {
+  background-color: lightblue;
+  padding: 50px;
+  width: 100%;
+  border-radius: 30px;
+}
+
 .container {
-  padding: 2rem;
+  padding: 50px;
   display: flex;
   flex-direction: column;
   align-items: center;

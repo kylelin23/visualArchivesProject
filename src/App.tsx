@@ -27,12 +27,15 @@ export default function App() {
   return (
     <div className="container">
       <h1>Treemap</h1>
-      <iframe
-        src={`${import.meta.env.BASE_URL}chart.html`}
-        width="100%"
-        height="600px"
-        style={{ border: "none" }}
-      />
+      <div className = "treemapContainer">
+        <iframe
+          src={`${import.meta.env.BASE_URL}chart.html`}
+          width="100%"
+          height="600px"
+          className = "treemap"
+        />
+      </div>
+
 
       <div className="stats">
         <h2>Overall Linear Feet Summary Statistics</h2>

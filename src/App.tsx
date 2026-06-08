@@ -6,11 +6,11 @@ export default function App() {
     <div className="container">
       <h1>Archives Visualization</h1>
       <div className = "treemapContainer">
-        <iframe
-          src={`${import.meta.env.BASE_URL}chart.html`}
-          className="treemap"
-          title="Treemap"
-        />
+         <iframe
+            src={`${import.meta.env.BASE_URL}chart.html?v=2`}
+            className="treemap"
+            title="Treemap"
+          />
       </div>
 
 

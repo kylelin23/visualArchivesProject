@@ -6,6 +6,7 @@
 
 ## Helpful Links: 
 - [GitHub Pages](https://kylelin23.github.io/visualArchivesProject/)
-- [Figma](https://www.figma.com/design/JcVyRf7Zb9CtbPgUE6liBB/Visual-Archives-Project-Wireframe?node-id=0-1&p=f&t=UiHprHjBixY6nj7n-0)
-- [Dash in 20 Minutes Tutorial | Dash for Python Documentation | Plotly](https://dash.plotly.com/tutorial)
-- [GitHub - plotly-dash-apps/101-static-website-github-pages · GitHub](https://github.com/plotly-dash-apps/101-static-website-github-pages)
+- [Figma](https://www.figma.com/design/29KeCLcUzcU1x4b8yoVnu0/Visual-Archives-Project-Wireframe?node-id=0-1&t=Cw6Apeun1oo2ZOnB-1)
+
+## Tasks: 
+- Add search bar

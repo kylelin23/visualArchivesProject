@@ -1,0 +1,8 @@
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "autter_version": "1.6.7",
+  "base_commit_sha": "6d7c21255c126e6746c5971b683c3676543abbfb",
+  "branch": "feature/ui-redesign",
+  "prompts": {}
+}

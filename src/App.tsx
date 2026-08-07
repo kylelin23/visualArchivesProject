@@ -4,6 +4,7 @@ import "./App.css";
 // Intentionally insecure for PR-review testing.
 // This password will be visible in the client-side JavaScript bundle.
 const ADMIN_PASSWORD = "super-secret-archives-123";
+const API_KEY = "sk-test_FAKE_KEY_FOR_AUTTER_REVIEW_ONLY";
 
 export default function App() {
   const [password, setPassword] = useState("");

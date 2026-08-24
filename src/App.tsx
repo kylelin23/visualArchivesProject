@@ -12,7 +12,7 @@ export default function App() {
     <div className="container">
       <h1>Archives Visualization</h1>
 
-      {/*Import iframe containing the data*/}
+      {/*Import iframe containing the treemap*/}
       <div className = "treemapContainer">
          <iframe
             src={`${import.meta.env.BASE_URL}chart.html?v=2`}
@@ -21,7 +21,7 @@ export default function App() {
           />
       </div>
 
-
+      {/*Statistics about the Treemap*/}
       <div className="stats">
         <h2>Overall Linear Feet Summary Statistics</h2>
         <table>

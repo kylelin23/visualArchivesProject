@@ -1,3 +1,7 @@
+:root{
+  font-family: 'Inter', Roboto;
+}
+
 .container {
   padding: 2rem;
   max-width: 1400px;
@@ -24,7 +28,7 @@ h1 {
 
 .treemap {
   width: 100%;
-  height: 700px; 
+  height: 700px;
   border: none;
   border-radius: 12px;
   background: white;

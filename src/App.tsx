@@ -1,10 +1,18 @@
 import "./App.css";
 
+// Import font
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/500.css';
+import '@fontsource/inter/600.css';
+import '@fontsource/inter/700.css';
+
 export default function App() {
 
   return (
     <div className="container">
       <h1>Archives Visualization</h1>
+
+      {/*Import iframe containing the data*/}
       <div className = "treemapContainer">
          <iframe
             src={`${import.meta.env.BASE_URL}chart.html?v=2`}

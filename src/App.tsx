@@ -12,8 +12,8 @@ export default function App() {
   const [query, setQuery] = useState("");
   const [notFound, setNotFound] = useState(false);
 
-  // Listen for the "not found" message chart.html sends back when a
-  // searched label doesn't match any node in the treemap.
+  // Handles when the user search result is invalid
+  // Adds event listener that listens for "not found" message from iframe
   useEffect(() => {
     function handleMessage(event: MessageEvent) {
       if (event.data?.type === "ZOOM_NOT_FOUND") {
@@ -24,9 +24,10 @@ export default function App() {
     return () => window.removeEventListener("message", handleMessage);
   }, []);
 
+  // User search logic
   function handleSearch(e: React.FormEvent) {
     e.preventDefault();
-    console.log("SEARCH FIRED:", query.trim()); 
+    console.log("SEARCH FIRED:", query.trim());
     if (!query.trim()) return;
     setNotFound(false);
     iframeRef.current?.contentWindow?.postMessage(
@@ -35,6 +36,7 @@ export default function App() {
     );
   }
 
+  // Reset button logic
   function handleReset() {
     setQuery("");
     setNotFound(false);
@@ -46,8 +48,10 @@ export default function App() {
 
   return (
     <div className="container">
-      <h1>Archives Visualization</h1>
+      {/*Title*/}
+      <h1>Visual Archives</h1>
 
+      {/*Search bar*/}
       <form className="searchBar" onSubmit={handleSearch}>
         <input
           type="text"
@@ -56,7 +60,7 @@ export default function App() {
             setQuery(e.target.value);
             setNotFound(false);
           }}
-          placeholder="Search a collection or department, then press Enter (e.g. MS0195)"
+          placeholder="Search by collection name"
         />
         <button type="button" className="resetButton" onClick={handleReset}>
           Reset
@@ -66,7 +70,7 @@ export default function App() {
         <p className="searchNotFound">No collection matches "{query}"</p>
       )}
 
-      {/*Import iframe containing the data*/}
+      {/*Import iframe containing the treemap*/}
       <div className="treemapContainer">
         <div className="treemapScroll">
           <iframe
@@ -78,6 +82,7 @@ export default function App() {
         </div>
       </div>
 
+      {/*Treemap statistics*/}
       <div className="stats">
         <h2>Overall Linear Feet Summary Statistics</h2>
         <table>

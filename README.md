@@ -1,5 +1,5 @@
 # Visual Archives Project
-The Visual Archives Project is a website build with React using a Vite framework with the purpose of displaying data for the visual archives. The data contains information such as the measurements of the archives. 
+The Visual Archives Project is a website built with JavaScript and React using a Vite framework with the purpose of displaying data for the visual archives. The data contains information such as the measurements of the archives. 
 
 <img width="3024" height="1886" alt="image" src="https://github.com/user-attachments/assets/0cfebfa6-f5d4-41d2-8227-d1fe6dfa1795" />
 

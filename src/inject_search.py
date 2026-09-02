@@ -17,10 +17,18 @@ LISTENER_SCRIPT = f"""{MARKER_START}
       return;
     }}
     var ids = gd.data[0].ids || [];
-    var labels = ids.map(function(id) {{
-      var segments = id.split("/");
-      return segments[segments.length - 1];
-    }});
+    var parents = gd.data[0].parents || [];
+    var labels = ids
+      .map(function(id, i) {{
+        return {{ id: id, parent: parents[i] }};
+      }})
+      .filter(function(entry) {{
+        return entry.parent !== "";
+      }})
+      .map(function(entry) {{
+        var segments = entry.id.split("/");
+        return segments[segments.length - 1];
+      }});
     window.parent.postMessage({{ type: "LABELS", labels: labels }}, "*");
   }}
   sendLabels();

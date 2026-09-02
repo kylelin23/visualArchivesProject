@@ -9,13 +9,17 @@ import "@fontsource/inter/700.css";
 
 export default function App() {
   const iframeRef = useRef<HTMLIFrameElement>(null);
+  const searchBarRef = useRef<HTMLDivElement>(null);
   const [query, setQuery] = useState("");
   const [notFound, setNotFound] = useState(false);
+  const [labels, setLabels] = useState<string[]>([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
 
-  // Handles when the user search result is invalid
-  // Adds event listener that listens for "not found" message from iframe
   useEffect(() => {
     function handleMessage(event: MessageEvent) {
+      if (event.data?.type === "LABELS") {
+        setLabels(event.data.labels || []);
+      }
       if (event.data?.type === "ZOOM_NOT_FOUND") {
         setNotFound(true);
       }
@@ -24,22 +28,55 @@ export default function App() {
     return () => window.removeEventListener("message", handleMessage);
   }, []);
 
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        searchBarRef.current &&
+        !searchBarRef.current.contains(event.target as Node)
+      ) {
+        setShowSuggestions(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const suggestions =
+    query.trim().length > 0
+      ? labels
+          .filter((label) =>
+            label.toLowerCase().includes(query.trim().toLowerCase()),
+          )
+          .slice(0, 8)
+      : [];
+
+  function zoomTo(label: string) {
+    setNotFound(false);
+    setShowSuggestions(false);
+    iframeRef.current?.contentWindow?.postMessage(
+      { type: "ZOOM_TO", label },
+      "*",
+    );
+  }
+
   // User search logic
   function handleSearch(e: React.FormEvent) {
     e.preventDefault();
-    console.log("SEARCH FIRED:", query.trim());
     if (!query.trim()) return;
-    setNotFound(false);
-    iframeRef.current?.contentWindow?.postMessage(
-      { type: "ZOOM_TO", label: query.trim() },
-      "*",
-    );
+    zoomTo(query.trim());
+  }
+
+  // Clicking on preview suggestion
+  function handleSuggestionClick(label: string) {
+    setQuery(label);
+    zoomTo(label);
   }
 
   // Reset button logic
   function handleReset() {
     setQuery("");
     setNotFound(false);
+    setShowSuggestions(false);
     iframeRef.current?.contentWindow?.postMessage(
       { type: "ZOOM_TO", label: "" },
       "*",
@@ -52,20 +89,43 @@ export default function App() {
       <h1>Visual Archives</h1>
 
       {/*Search bar*/}
-      <form className="searchBar" onSubmit={handleSearch}>
-        <input
-          type="text"
-          value={query}
-          onChange={(e) => {
-            setQuery(e.target.value);
-            setNotFound(false);
-          }}
-          placeholder="Search by collection name"
-        />
-        <button type="button" className="resetButton" onClick={handleReset}>
-          Reset
-        </button>
-      </form>
+      <div className="searchBarWrapper" ref={searchBarRef}>
+        <form className="searchBar" onSubmit={handleSearch}>
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => {
+              setQuery(e.target.value);
+              setNotFound(false);
+              setShowSuggestions(true);
+            }}
+            onFocus={() => setShowSuggestions(true)}
+            placeholder="Search by collection name"
+            autoComplete="off"
+          />
+          <button type="button" className="resetButton" onClick={handleReset}>
+            Reset
+          </button>
+        </form>
+
+        {/*Preview*/}
+        {showSuggestions && suggestions.length > 0 && (
+          <ul className="suggestionsList">
+            {suggestions.map((label) => (
+              <li key={label}>
+                <button
+                  type="button"
+                  onClick={() => handleSuggestionClick(label)}
+                >
+                  {label}
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+
+      {/*Error message*/}
       {notFound && (
         <p className="searchNotFound">No collection matches "{query}"</p>
       )}

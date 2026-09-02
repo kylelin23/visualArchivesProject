@@ -5,11 +5,30 @@ MARKER_END = "<!-- SEARCH_ZOOM_LISTENER_END -->"
 
 LISTENER_SCRIPT = f"""{MARKER_START}
 <script>
+  function getPlotlyDiv() {{
+    return document.getElementsByClassName("plotly-graph-div")[0]
+      || document.getElementsByClassName("js-plotly-plot")[0];
+  }}
+
+  function sendLabels() {{
+    var gd = getPlotlyDiv();
+    if (!gd || !gd.data || !gd.data[0]) {{
+      setTimeout(sendLabels, 150);
+      return;
+    }}
+    var ids = gd.data[0].ids || [];
+    var labels = ids.map(function(id) {{
+      var segments = id.split("/");
+      return segments[segments.length - 1];
+    }});
+    window.parent.postMessage({{ type: "LABELS", labels: labels }}, "*");
+  }}
+  sendLabels();
+
   window.addEventListener("message", function(event) {{
     if (!event.data || event.data.type !== "ZOOM_TO") return;
 
-    var gd = document.getElementsByClassName("plotly-graph-div")[0]
-      || document.getElementsByClassName("js-plotly-plot")[0];
+    var gd = getPlotlyDiv();
     if (!gd) return;
 
     var label = event.data.label;

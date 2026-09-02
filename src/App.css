@@ -15,12 +15,17 @@ h1 {
   margin-bottom: 1.5rem;
 }
 
+.searchBarWrapper {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  margin-bottom: 0.75rem;
+}
+
 .searchBar {
   display: flex;
   gap: 0.5rem;
   width: 100%;
-  max-width: 600px;
-  margin-bottom: 0.75rem;
 }
 
 .searchBar input {
@@ -71,6 +76,48 @@ h1 {
   margin: 0 0 1.5rem;
 }
 
+.suggestionsList {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: 20;
+  list-style: none;
+  margin: 0;
+  padding: 0.35rem;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.suggestionsList li {
+  margin: 0;
+  padding: 0;
+}
+
+.suggestionsList button {
+  width: 100%;
+  text-align: left;
+  padding: 0.55rem 0.75rem;
+  border: none;
+  background: none;
+  font-family: inherit;
+  font-size: 0.9rem;
+  color: #1e293b;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.suggestionsList button:hover,
+.suggestionsList button:focus {
+  background: #eff6ff;
+  color: #1d4ed8;
+  outline: none;
+}
+
 .treemapContainer {
   width: 100%;
   max-width: 1200px;
@@ -96,49 +143,4 @@ h1 {
   border-radius: 12px;
   background: white;
   display: block;
-}
-
-.stats {
-  width: 100%;
-  max-width: 1000px;
-  background: white;
-  padding: 2rem;
-  border-radius: 20px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-  box-sizing: border-box;
-}
-
-.stats h2 {
-  font-size: 1.1rem;
-  font-weight: 600;
-  margin: 2rem 0 0.75rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid #ddd;
-}
-
-.stats table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 1.5rem;
-  font-size: 0.95rem;
-}
-
-.stats th,
-.stats td {
-  padding: 0.75rem;
-  text-align: left;
-  border-bottom: 1px solid #eee;
-}
-
-.stats th {
-  font-weight: 600;
-  background: #fafafa;
-}
-
-.counts {
-  margin-top: 2rem;
-}
-
-.counts p {
-  margin: 0.5rem 0;
 }

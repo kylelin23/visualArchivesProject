@@ -7,13 +7,31 @@ import "@fontsource/inter/500.css";
 import "@fontsource/inter/600.css";
 import "@fontsource/inter/700.css";
 
+// Timeline modal logic
+function Modal({ timelineShown, ref } : { timelineShown : boolean, ref : React.RefObject<HTMLIFrameElement | null>}) {
+  if(timelineShown){
+    return(
+      <div className = "modal-overlay">
+        <iframe
+          ref={ref}
+          src={`${import.meta.env.BASE_URL}collection_timeline.html?v=2`}
+          className="timeline"
+          title="Collection Timeline"
+        />
+      </div>
+    )
+  }
+}
+
 export default function App() {
   const iframeRef = useRef<HTMLIFrameElement>(null);
+  const timelineRef = useRef<HTMLIFrameElement>(null);
   const searchBarRef = useRef<HTMLDivElement>(null);
   const [query, setQuery] = useState("");
   const [notFound, setNotFound] = useState(false);
   const [labels, setLabels] = useState<string[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [timelineShown, setTimelineShown] = useState(false);
 
   useEffect(() => {
     function handleMessage(event: MessageEvent) {
@@ -84,68 +102,74 @@ export default function App() {
   }
 
   return (
-    <div className="container">
-      {/*Title*/}
-      <h1>Cal Poly's Special Collections and Archives</h1>
+    <>
+      <div className="container">
+        {/*Title*/}
+        <h1>Cal Poly's Special Collections and Archives</h1>
 
-      <p className = "description">
-        Welcome! This webpage is a visualization of the archives, rooms in the Kennedy Library storing thousands of boxes/archives.
-        Each section in the treemap below represents a unique collection in the archives, with the size of the section being proportional to space taken up by the collection.
-      </p>
+        <p className = "description">
+          Welcome! This webpage is a visualization of the archives, rooms in the Kennedy Library storing thousands of boxes/archives.
+          Each section in the treemap below represents a unique collection in the archives, with the size of the section being proportional to space taken up by the collection.
+        </p>
 
-      {/*Search bar*/}
-      <div className="searchBarWrapper" ref={searchBarRef}>
-        <form className="searchBar" onSubmit={handleSearch}>
-          <input
-            type="text"
-            value={query}
-            onChange={(e) => {
-              setQuery(e.target.value);
-              setNotFound(false);
-              setShowSuggestions(true);
-            }}
-            onFocus={() => setShowSuggestions(true)}
-            placeholder="Search by collection name"
-            autoComplete="off"
-          />
-          <button type="button" className="resetButton" onClick={handleReset}>
-            Reset
-          </button>
-        </form>
+        {/*Search bar*/}
+        <div className="searchBarWrapper" ref={searchBarRef}>
+          <form className="searchBar" onSubmit={handleSearch}>
+            <input
+              type="text"
+              value={query}
+              onChange={(e) => {
+                setQuery(e.target.value);
+                setNotFound(false);
+                setShowSuggestions(true);
+              }}
+              onFocus={() => setShowSuggestions(true)}
+              placeholder="Search by collection name"
+              autoComplete="off"
+            />
+            <button type="button" className="resetButton" onClick={handleReset}>
+              Reset
+            </button>
+            <button type="button" className="resetButton" onClick={() => setTimelineShown(!timelineShown)}>
+              Timeline
+            </button>
+          </form>
 
-        {/*Preview*/}
-        {showSuggestions && suggestions.length > 0 && (
-          <ul className="suggestionsList">
-            {suggestions.map((label) => (
-              <li key={label}>
-                <button
-                  type="button"
-                  onClick={() => handleSuggestionClick(label)}
-                >
-                  {label}
-                </button>
-              </li>
-            ))}
-          </ul>
+          {/*Preview*/}
+          {showSuggestions && suggestions.length > 0 && (
+            <ul className="suggestionsList">
+              {suggestions.map((label) => (
+                <li key={label}>
+                  <button
+                    type="button"
+                    onClick={() => handleSuggestionClick(label)}
+                  >
+                    {label}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+
+        {/*Error message*/}
+        {notFound && (
+          <p className="searchNotFound">No collection matches "{query}"</p>
         )}
-      </div>
 
-      {/*Error message*/}
-      {notFound && (
-        <p className="searchNotFound">No collection matches "{query}"</p>
-      )}
-
-      {/*Import iframe containing the treemap*/}
-      <div className="treemapContainer">
-        <div className="treemapScroll">
-          <iframe
-            ref={iframeRef}
-            src={`${import.meta.env.BASE_URL}chart.html?v=2`}
-            className="treemap"
-            title="Treemap"
-          />
+        {/*Import iframe containing the treemap*/}
+        <div className="treemapContainer">
+          <div className="treemapScroll">
+            <iframe
+              ref={iframeRef}
+              src={`${import.meta.env.BASE_URL}chart.html?v=2`}
+              className="treemap"
+              title="Treemap"
+            />
+          </div>
         </div>
       </div>
-    </div>
+      <Modal timelineShown = {timelineShown} ref = {timelineRef}/>
+    </>
   );
 }

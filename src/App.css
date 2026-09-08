@@ -144,3 +144,10 @@ h1 {
   background: white;
   display: block;
 }
+
+.description {
+  width: 40vw;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}

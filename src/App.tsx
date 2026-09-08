@@ -86,7 +86,12 @@ export default function App() {
   return (
     <div className="container">
       {/*Title*/}
-      <h1>Visual Archives</h1>
+      <h1>Cal Poly's Special Collections and Archives</h1>
+
+      <p className = "description">
+        Welcome! This webpage is a visualization of the archives, rooms in the Kennedy Library storing thousands of boxes/archives.
+        Each section in the treemap below represents a unique collection in the archives, with the size of the section being proportional to space taken up by the collection.
+      </p>
 
       {/*Search bar*/}
       <div className="searchBarWrapper" ref={searchBarRef}>

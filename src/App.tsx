@@ -7,22 +7,6 @@ import "@fontsource/inter/500.css";
 import "@fontsource/inter/600.css";
 import "@fontsource/inter/700.css";
 
-// Timeline modal logic
-function Modal({ timelineShown, ref } : { timelineShown : boolean, ref : React.RefObject<HTMLIFrameElement | null>}) {
-  if(timelineShown){
-    return(
-      <div className = "modal-overlay">
-        <iframe
-          ref={ref}
-          src={`${import.meta.env.BASE_URL}collection_timeline.html?v=2`}
-          className="timeline"
-          title="Collection Timeline"
-        />
-      </div>
-    )
-  }
-}
-
 export default function App() {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const timelineRef = useRef<HTMLIFrameElement>(null);
@@ -31,7 +15,6 @@ export default function App() {
   const [notFound, setNotFound] = useState(false);
   const [labels, setLabels] = useState<string[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const [timelineShown, setTimelineShown] = useState(false);
 
   useEffect(() => {
     function handleMessage(event: MessageEvent) {
@@ -101,6 +84,16 @@ export default function App() {
     );
   }
 
+  // Auto scrolling button
+  const targetRef = useRef<HTMLHeadingElement>(null)
+  function autoScroll(){
+    if(targetRef.current){
+      targetRef.current.scrollIntoView({
+        behavior: 'smooth',
+      })
+    }
+  }
+
   return (
     <>
       <div className="container">
@@ -130,8 +123,8 @@ export default function App() {
             <button type="button" className="resetButton" onClick={handleReset}>
               Reset
             </button>
-            <button type="button" className="resetButton" onClick={() => setTimelineShown(!timelineShown)}>
-              Timeline
+            <button type="button" className="resetButton" onClick={autoScroll}>
+              View Timeline
             </button>
           </form>
 
@@ -168,8 +161,16 @@ export default function App() {
             />
           </div>
         </div>
+
+        <h2 ref = {targetRef}>Timeline</h2>
+        <iframe
+          ref={timelineRef}
+          src={`${import.meta.env.BASE_URL}collection_timeline.html?v=2`}
+          className="timeline"
+          title="Collection Timeline"
+        />
       </div>
-      <Modal timelineShown = {timelineShown} ref = {timelineRef}/>
+
     </>
   );
 }
